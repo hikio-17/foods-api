@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { errorHandler } = require('./middlewares/errorHandler');
 
 const app = express();
 
@@ -21,6 +22,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', (req, res) => {
   res.status(200).send('<h1>Welcome to API</h1>');
 });
+
+/** ROUTE ERROR HANDLER */
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 
