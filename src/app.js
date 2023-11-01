@@ -19,9 +19,14 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/', (req, res) => {
+app.get('/', (req, res) => {
   res.status(200).send('<h1>Welcome to API</h1>');
 });
+
+const foodRouter = require('./routes/foodRouter');
+
+/** MAIN ROUTE */
+app.use('/api', foodRouter);
 
 /** ROUTE ERROR HANDLER */
 app.use(errorHandler);
