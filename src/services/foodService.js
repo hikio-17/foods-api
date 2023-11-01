@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+const NotFoundError = require('../exceptions/NotFoundError');
 const Food = require('../models/food');
 
 const addFood = async ({ name, basePrice }) => {
@@ -24,10 +25,19 @@ const editFoodById = async (id, { name, basePrice }) => {
   //
 };
 
+const checkFood = async (id) => {
+  const food = await Food.findById({ _id: id }).exec();
+
+  if (!food) {
+    throw new NotFoundError(`Food with id '${id}' not found.`);
+  }
+};
+
 module.exports = {
   addFood,
   findAllFood,
   findFoodById,
   editFoodById,
   removeFoodById,
+  checkFood,
 };

@@ -1,7 +1,9 @@
-const asyncHnadler = require('express-async-handler');
-const { addFood } = require('../services/foodService');
+const asyncHandler = require('express-async-handler');
+const {
+  addFood, findAllFood, findFoodById, checkFood,
+} = require('../services/foodService');
 
-const addFoodHandler = asyncHnadler(async (req, res) => {
+const addFoodHandler = asyncHandler(async (req, res) => {
   const { name, basePrice } = req.body;
 
   const food = await addFood({ name, basePrice });
@@ -17,6 +19,56 @@ const addFoodHandler = asyncHnadler(async (req, res) => {
   });
 });
 
+const getAllFoodHandler = asyncHandler(async (req, res) => {
+  const foods = await findAllFood();
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Retrieve all foods',
+    data: {
+      foods,
+    },
+  });
+});
+
+const getFoodByIdHandler = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  await checkFood(id);
+  const food = await findFoodById(id);
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Get food Detail',
+    data: {
+      food,
+    },
+  });
+});
+
+const updateFoodByIdHandler = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  await checkFood(id);
+  //
+});
+
+const deleteFoodByIdHandler = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  await checkFood(id);
+  await deleteFoodByIdHandler(id);
+
+  res.status(200).json({
+    status: 'success',
+    message: `Delete food with id '${id}' successfully`,
+  });
+});
+
 module.exports = {
   addFoodHandler,
+  getAllFoodHandler,
+  getFoodByIdHandler,
+  updateFoodByIdHandler,
+  deleteFoodByIdHandler,
+
 };
