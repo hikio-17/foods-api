@@ -11,16 +11,18 @@ const foodSchema = new mongoose.Schema({
     type: Number,
     required: 'Base Price is required',
   },
-  fillings:
-   [{
-     type: ObjectId,
-     ref: 'Filling',
-   }],
+  fillings: [
+    {
+      type: ObjectId,
+      ref: 'FoodVariety',
+    },
+  ],
   toppings: [
     {
       type: ObjectId,
-      ref: 'Topping',
-    }],
+      ref: 'FoodVariety',
+    },
+  ],
 }, { timestamps: true });
 
 module.exports = mongoose.model('Food', foodSchema);

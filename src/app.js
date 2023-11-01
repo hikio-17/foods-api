@@ -24,13 +24,11 @@ app.get('/', (req, res) => {
 });
 
 const foodRouter = require('./routes/foodRouter');
-const toppingRouter = require('./routes/toppingRouter');
-const fillingRouter = require('./routes/fillingRouter');
+const foodVarietyRouter = require('./routes/foodVarietyRouter');
 
 /** MAIN ROUTE */
 app.use('/api', foodRouter);
-app.use('/api', toppingRouter);
-app.use('/api', fillingRouter);
+app.use('/api', foodVarietyRouter);
 
 /** ROUTE ERROR HANDLER */
 app.use(errorHandler);

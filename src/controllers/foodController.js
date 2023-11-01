@@ -4,9 +4,7 @@ const {
 } = require('../services/foodService');
 
 const addFoodHandler = asyncHandler(async (req, res) => {
-  const { name, basePrice } = req.body;
-
-  const food = await addFood({ name, basePrice });
+  const food = await addFood(req.body);
 
   res.status(201).json({
     status: 'success',

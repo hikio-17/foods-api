@@ -1,20 +1,33 @@
-/* eslint-disable no-unused-vars */
 const NotFoundError = require('../exceptions/NotFoundError');
 const Food = require('../models/food');
+const FoodVariety = require('../models/foodVariety');
 
-const addFood = async ({ name, basePrice }) => {
-  const newFood = await new Food({ name, basePrice }).save();
+const addFood = async ({
+  name, basePrice, fillings, toppings,
+}) => {
+  const fillingsItem = await Promise.all(fillings.map(async (item) => {
+    const filling = await FoodVariety.findOne({ _id: item });
+    return filling;
+  }));
+
+  const toppingsItem = await Promise.all(toppings.map(async (item) => {
+    const topping = await FoodVariety.findOne({ _id: item });
+    return topping;
+  }));
+
+  const newFood = await new Food({
+    name, basePrice, fillings: fillingsItem, toppings: toppingsItem,
+  }).save();
+
   return newFood;
 };
 
 const findAllFood = async () => {
-  const foods = await Food.find({})
-    .exec();
+  const foods = await Food.find({}).exec();
   return foods;
 };
 
 const findFoodById = async (id) => {
-  console.log('id foods', id);
   const food = await Food.findById({ _id: id }).populate('toppings').populate('fillings').exec();
   return food;
 };
