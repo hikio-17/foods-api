@@ -8,17 +8,19 @@ const addFood = async ({ name, basePrice }) => {
 };
 
 const findAllFood = async () => {
-  const foods = await Food.find({}).exec();
+  const foods = await Food.find({})
+    .exec();
   return foods;
 };
 
-const findFoodById = async ({ id }) => {
-  const food = await Food.find({ _id: id }).exec();
+const findFoodById = async (id) => {
+  console.log('id foods', id);
+  const food = await Food.findById({ _id: id }).populate('toppings').populate('fillings').exec();
   return food;
 };
 
-const removeFoodById = async ({ id }) => {
-  await Food.findByIdAndDelete({ _id: id });
+const removeFoodById = async (id) => {
+  await Food.findByIdAndDelete(id);
 };
 
 const editFoodById = async (id, { name, basePrice }) => {

@@ -11,12 +11,10 @@ const fillingSchema = new mongoose.Schema({
     type: Number,
     required: 'Price is required',
   },
-  parent: [
-    {
-      type: ObjectId,
-      required: true,
-    },
-  ],
+  parent: {
+    type: ObjectId,
+    required: true,
+  },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Filling', fillingSchema);

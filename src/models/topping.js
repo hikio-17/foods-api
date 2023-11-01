@@ -11,12 +11,12 @@ const toppingSchema = new mongoose.Schema({
     type: Number,
     required: 'Price is requried',
   },
-  parent: [
+  parent:
     {
       type: ObjectId,
+      ref: 'Food',
       required: true,
     },
-  ],
 }, { timestamps: true });
 
 module.exports = mongoose.model('Topping', toppingSchema);
