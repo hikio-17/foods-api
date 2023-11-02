@@ -3,15 +3,19 @@ const { createUser, userSign } = require('../services/authService');
 const { createAccessToken } = require('../tokenize/tokenManager');
 
 const userRegisterHandler = asyncHandler(async (req, res) => {
-  const { email, username, password } = req.body;
+  const {
+    email, username, password, role = 'USER',
+  } = req.body;
 
-  const user = await createUser({ email, username, password });
+  const user = await createUser({
+    email, username, password, role,
+  });
 
   res.status(201).json({
     status: 'success',
     message: 'New user created successfully',
     data: {
-      user,
+      addedUser: user,
     },
   });
 });

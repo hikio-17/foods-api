@@ -20,7 +20,7 @@ exports.userSign = async ({ email, password }) => {
 };
 
 exports.createUser = async ({
-  username, email, password, role = 'USER',
+  username, email, password, role,
 }) => {
   const existingUser = await User.findOne({ email });
 
@@ -37,5 +37,8 @@ exports.createUser = async ({
     role,
   }).save();
 
-  return newUser;
+  const user = { ...newUser._doc };
+  delete user.password;
+
+  return user;
 };

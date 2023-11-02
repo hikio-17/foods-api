@@ -26,11 +26,13 @@ app.get('/', (req, res) => {
 const foodRouter = require('./routes/foodRouter');
 const foodVarietyRouter = require('./routes/foodVarietyRouter');
 const authRouter = require('./routes/authRouter');
+const orderRouter = require('./routes/orderRouter');
 
 /** MAIN ROUTE */
 app.use('/api', foodRouter);
 app.use('/api', foodVarietyRouter);
 app.use('/api', authRouter);
+app.use('/api', orderRouter);
 
 /** ROUTE ERROR HANDLER */
 app.use(errorHandler);

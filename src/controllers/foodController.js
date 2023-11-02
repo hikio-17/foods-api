@@ -1,9 +1,10 @@
 const asyncHandler = require('express-async-handler');
 const {
-  addFood, findAllFood, findFoodById, checkFood, removeFoodById,
+  addFood, findAllFood, findFoodById, removeFoodById,
 } = require('../services/foodService');
 
 const addFoodHandler = asyncHandler(async (req, res) => {
+  console.log(req.body);
   const food = await addFood(req.body);
 
   res.status(201).json({
@@ -32,9 +33,8 @@ const getAllFoodHandler = asyncHandler(async (req, res) => {
 const getFoodByIdHandler = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  await checkFood(id);
   const food = await findFoodById(id);
-  console.log(food);
+
   res.status(200).json({
     status: 'success',
     message: 'Get food Detail',
@@ -46,14 +46,12 @@ const getFoodByIdHandler = asyncHandler(async (req, res) => {
 
 const updateFoodByIdHandler = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  await checkFood(id);
   //
 });
 
 const deleteFoodByIdHandler = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  await checkFood(id);
   await removeFoodById(id);
 
   res.status(200).json({

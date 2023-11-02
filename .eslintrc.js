@@ -9,5 +9,7 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'no-restricted-syntax': 'off',
     'guard-for-in': 'off',
+    'array-callback-return': 'off',
+    'no-sequences': 'off',
   },
 };
