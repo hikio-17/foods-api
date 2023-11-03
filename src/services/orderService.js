@@ -73,8 +73,21 @@ const removeOrderById = async (id, { id: user, role }) => {
   await Order.findByIdAndDelete(id);
 };
 
+const findOrderById = async (id, { role, id: userId }) => {
+  const order = await Order.findById(id);
+
+  if (role !== 'ADMIN') {
+    if (order.user.toString() !== userId) {
+      throw new AuthorizationError('You are not eligible to access this resource');
+    }
+  }
+
+  return order;
+};
+
 module.exports = {
   addOrder,
   findAllOrder,
   removeOrderById,
+  findOrderById,
 };

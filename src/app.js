@@ -1,6 +1,11 @@
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan');
+const path = require('path');
+const fs = require('fs');
+
 const { errorHandler } = require('./middlewares/errorHandler');
+const logger = require('./middlewares/logger');
 
 const app = express();
 
@@ -16,23 +21,19 @@ require('./config/db')();
 
 /** MIDDLEWARES */
 app.use(cors(corsOptions));
+app.use(morgan('combined', { stream: logger.stream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.status(200).send('<h1>Welcome to API</h1>');
+  res.status(200).send('<h1>Welcome to API Foods</h1>');
 });
 
-const foodRouter = require('./routes/foodRouter');
-const foodVarietyRouter = require('./routes/foodVarietyRouter');
-const authRouter = require('./routes/authRouter');
-const orderRouter = require('./routes/orderRouter');
-
 /** MAIN ROUTE */
-app.use('/api', foodRouter);
-app.use('/api', foodVarietyRouter);
-app.use('/api', authRouter);
-app.use('/api', orderRouter);
+const routesDir = path.join(__dirname, 'routes');
+fs.readdirSync(routesDir).map((r) => {
+  app.use('/api', require(`${routesDir}/${r}`));
+});
 
 /** ROUTE ERROR HANDLER */
 app.use(errorHandler);

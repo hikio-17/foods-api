@@ -1,6 +1,7 @@
 const ClientError = require('../exceptions/ClientError');
 
 exports.errorHandler = (err, req, res, next) => {
+  console.log(err);
   if (err instanceof ClientError) {
     res.status(err.statusCode).json({
       status: 'fail',

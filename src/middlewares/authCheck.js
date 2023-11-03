@@ -4,6 +4,10 @@ const AuthorizationError = require('../exceptions/AuthorizationError');
 const { verifyAccessToken, decodePayload } = require('../tokenize/tokenManager');
 
 exports.authCheck = asyncHandler(async (req, res, next) => {
+  if (!req.headers.authorization) {
+    throw new AuthenticationError('Access token required. please login first');
+  }
+
   const token = req.headers.authorization.split(' ')[1];
 
   if (!token) {

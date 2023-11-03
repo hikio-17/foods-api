@@ -11,5 +11,7 @@ module.exports = {
     'guard-for-in': 'off',
     'array-callback-return': 'off',
     'no-sequences': 'off',
+    'global-require': 'off',
+    'import/no-dynamic-require': 'off',
   },
 };

@@ -1,5 +1,7 @@
 const asyncHandler = require('express-async-handler');
-const { addOrder, findAllOrder, removeOrderById } = require('../services/orderService');
+const {
+  addOrder, findAllOrder, removeOrderById, findOrderById,
+} = require('../services/orderService');
 
 const createOrderHandler = asyncHandler(async (req, res) => {
   const { id: user } = req.user;
@@ -29,6 +31,20 @@ const getAllOrderHandler = asyncHandler(async (req, res) => {
   });
 });
 
+const getOrderByIdHandler = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { user } = req;
+
+  const order = await findOrderById(id, user);
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      order,
+    },
+  });
+});
+
 const deleteOrderByIdHandler = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
@@ -44,4 +60,5 @@ module.exports = {
   createOrderHandler,
   getAllOrderHandler,
   deleteOrderByIdHandler,
+  getOrderByIdHandler,
 };

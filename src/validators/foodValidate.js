@@ -1,15 +1,20 @@
 const { body, validationResult } = require('express-validator');
 const InvariantError = require('../exceptions/InvariantError');
 
-exports.validateFoodVariety = [
+exports.validateFood = [
   body('name')
     .notEmpty().withMessage('Name cannot be empty')
     .isString()
     .withMessage('Name must be a string'),
-  body('price')
-    .notEmpty().withMessage('Price cannot be empty')
+  body('basePrice')
+    .notEmpty().withMessage('Baseprice cannot be empty')
     .isNumeric()
-    .withMessage('Price must be a number'),
+    .withMessage('Name must be a number'),
+  body('toppings')
+    .isArray()
+    .withMessage('Toppings must be a array'),
+  body('fillings')
+    .isArray().withMessage('Fillings must be a array'),
 
   (req, res, next) => {
     const errors = validationResult(req);
